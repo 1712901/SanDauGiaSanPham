@@ -1,0 +1,25 @@
+<script>
+    $().ready(()=>{
+        $('.row-header').empty();
+    })
+</script>
+<div class="container">
+    <div class="row p-2">
+        <form action="/checkOTP" method="POST">
+            {{#if msg}}
+            <p style="color: red;">
+                {{msg}}
+            </p>
+            {{/if}}
+            <h4>Mã OTP xác nhận đăng kí đã được gỡi vào {{email}}, vui lòng CheckMail</h4>
+            <input type="text" class="form-control" name="OTPinput" placeholder="OTP">
+            <input type="hidden" name="OTP" value="{{OTP}}">
+            <input type="hidden" name="username" value="{{username}}">
+            <input type="hidden" name="password" value="{{password}}">
+            <input type="hidden" name="fullname" value="{{fullname}}">
+            <input type="hidden" name="email" value="{{email}}">
+            <input type="hidden" name="address" value="{{address}}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

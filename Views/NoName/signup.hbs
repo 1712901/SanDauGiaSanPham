@@ -1,0 +1,43 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    $('.popular_categories').remove();
+</script>
+
+<div class="container mt-5">
+    {{#if msg}}
+    <div class="alert alert-danger" role="alert">
+        {{msg}}
+    </div>
+    {{/if}}
+    <h3>Sign Up</h3>
+    <form method="POST" action="/SignUp">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Họ Tên</label>
+            <input class="form-control" name="fullname" value="Phan Van Tuan">
+
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Địa Chỉ</label>
+            <input class="form-control" name="address" value="HCMC">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input class="form-control" name="email" value="pvt@gmail.com">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">User Name</label>
+            <input class="form-control" name="username" value="admin">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="password" value="admin">
+        </div>
+        <div class="g-recaptcha" data-sitekey="6LcRvsQUAAAAAKTDE1FidLFPpSMRZZFYDW4KcN5o"></div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <br />
+    </form>
+</div>

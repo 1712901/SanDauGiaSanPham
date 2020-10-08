@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="alert alert-danger  w-100" role="alert">
+    Top 5 sản phẩm gần kết thúc
+  </div>
+  {{#each ProductsNearEnd}}
+  <a href="{{MA_SAN_PHAM}}" class="text-decoration-none">
+    <div class="card mb-1 ml-1" style="width: 18rem;">
+      <img src="{{LINK_ANH}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{TEN_SAN_PHAM}}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+          content.</p>
+        <a href="#" class="btn btn-primary">{{GIA_HIEN_TAI}} VNĐ</a>
+      </div>
+    </div>
+  </a>
+  {{/each}}
+
+</div>
+
+<div class="row">
+  <div class="alert alert-danger  w-100" role="alert">
+    Top 5 sản phẩm có nhiều lượt ra giá nhất
+  </div>
+  {{#each ProductsManyPrices}}
+  <a href="{{MA_SAN_PHAM}}" class="text-decoration-none">
+    <div class="card mb-1 ml-1" style="width: 18rem;">
+      <img src="{{LINK_ANH}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{TEN_SAN_PHAM}}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+          content.</p>
+        <a href="#" class="btn btn-primary">{{GIA_HIEN_TAI}} VNĐ</a>
+      </div>
+    </div>
+  </a>
+  {{/each}}
+</div>
+
+<div class="row">
+  <div class="alert alert-danger  w-100" role="alert">
+    Top 5 sản phẩm có giá cao nhất
+  </div>
+  {{#each ProducstsPricesHigh}}
+  <a href="{{MA_SAN_PHAM}}" class="text-decoration-none">
+    <div class="card mb-1 ml-1" style="width: 18rem;">
+      <img src="{{LINK_ANH}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{TEN_SAN_PHAM}}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+          content.</p>
+        <a href="#" class="btn btn-primary">{{GIA_HIEN_TAI}} VNĐ</a>
+      </div>
+    </div>
+  </a>
+  {{/each}}
+</div>
+
+
+</div>
+<div class="row">
+  {{{this.paginator}}}
+</div>

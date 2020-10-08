@@ -1,0 +1,227 @@
+<script>
+    $('.popular_categories').remove();
+</script>
+<div class="jumbotron">
+    <h1 class="display-4">Hello {{ThongTinBidder.HO_TEN}}</h1>
+    <p class="lead"> Email: {{ThongTinBidder.EMAIL}} </p>
+    <p class="lead"> Điểm của bạn: {{DiemBidder.TONG_DIEM}} </p>
+    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModal2">Xem nhận xét về
+        bạn</button>
+    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModal1">Sửa thông tin cá
+        nhân</button>
+    <form method="POST" action="/BidderManage/UPGRADE">
+        <button type="submit" class="btn btn-outline-info">UpgradeToSeller</button>
+        <input type="hidden" class="form-control" value="{{ThongTinBidder.IDUSER}}" id="IDUSER" name="IDUSER">
+    </form>
+
+
+</div>
+
+<!-- Modal sửa thông tin cá nhân -->
+<div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Change Information</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="changeinfo-form">
+                    <div class="form-group">
+                        <label for="username">UserName:</label>
+                        <input type="username" class="form-control" id="username"
+                            value="{{ThongTinBidder.USERNAME}}" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="name" class="form-control" id="name" value=" {{ThongTinBidder.HO_TEN}}"
+                            name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" value="{{ThongTinBidder.EMAIL}}"
+                            name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Password:</label>
+                        <input type="password" class="form-control" id="pwd" value="{{ThongTinBidder.PWD}}"
+                            name="pwd">
+                    </div>
+                    <button type="submit" class="btn btn-default">Confirm</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal hiện nhận xét về bidder -->
+<div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">COMMENT</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    {{#each DanhGiaBidder}}
+                    <a class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{NGUOI_DANH_GIA}}</h5>
+                            <small>{{DIEM_CONG}} likes</small>
+                        </div>
+                        <p class="mb-1">{{NHAN_XET}}</p>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="super_container">
+    <!-- Deals of the week -->
+    <div class="viewed 1">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="viewed_title_container">
+                        <h3 class="viewed_title" style="font-family: 'Lato', sans-serif;">Sản phẩm yêu thích của bạn
+                        </h3>
+
+                    </div>
+
+                    <div class="viewed_slider_container">
+
+                        <!-- Recently Viewed Slider -->
+
+                        <div class="owl-carousel owl-theme viewed_slider">
+                            {{#each FavoritesProductBidder}}
+
+                            <!-- Recently Viewed Item -->
+                            <div class="owl-item">
+                                <a href="/detail/{{MA_SAN_PHAM}}">
+                                    <div
+                                        class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                                        <div class="viewed_image"><img src="{{LINK_ANH}}" alt=""></div>
+                                        <div class="viewed_content text-center" style="height: 250px;">
+                                            <div class="viewed_name">{{TEN_SAN_PHAM}}</div>
+                                            <div class="viewed_price">VNĐ <del>{{GIA_HIEN_TAI}}</del></div>
+                                            <div class="viewed_price">VNĐ <mark>{{this.info.TopPrice}}</mark></div>
+                                            <p class="card-text"><small class="text-muted">Đăng ngày
+                                                    {{this.THOI_DIEM_DANG}}</small></p>
+                                            <p class="card-text"><small
+                                                    class="text-muted"><mark>{{this.info.HO_TEN}}</mark> đang giữ giá
+                                                    đầu cao nhất</small></p>
+
+                                        </div>
+                                        <ul class="item_marks">
+                                            <li class="item_mark item_discount">{{this.info.SL}} lượt</li>
+                                        </ul>
+
+                                    </div>
+
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="viewed 1">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="viewed_title_container">
+                        <h3 class="viewed_title" style="font-family: 'Lato', sans-serif;">Sản phẩm bạn đang giữ giá cao
+                            nhất</h3>
+
+                    </div>
+
+                    <div class="viewed_slider_container">
+
+                        <!-- Recently Viewed Slider -->
+
+                        <div class="owl-carousel owl-theme viewed_slider">
+                            {{#each SanphamDangDauGiaBidder}}
+
+                            <!-- Recently Viewed Item -->
+                            <div class="owl-item">
+                                <a href="/detail/{{MA_SAN_PHAM}}">
+                                    <div
+                                        class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                                        <div class="viewed_image"><img src="{{LINK_ANH}}" alt=""></div>
+                                        <div class="viewed_content text-center" style="height: 250px;">
+                                            <div class="viewed_name">{{TEN_SAN_PHAM}}</div>
+                                            <div class="viewed_price">VNĐ <del>{{GIA_HIEN_TAI}}</del></div>
+                                            <div class="viewed_price">Giá của bạn <mark>{{GIA_DAU}} VND</mark></div>
+                                            <p class="card-text"><small class="text-muted">Đăng ngày
+                                                    {{THOI_DIEM_DANG}}</small></p>
+                                        </div>
+                                    </div>
+
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="viewed 1">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="viewed_title_container">
+                        <h3 class="viewed_title" style="font-family: 'Lato', sans-serif;">Sản phẩm mà bạn đã thắng</h3>
+
+                    </div>
+
+                    <div class="viewed_slider_container">
+
+                        <!-- Recently Viewed Slider -->
+
+                        <div class="owl-carousel owl-theme viewed_slider">
+                            {{#each SanphamDaThangBidder}}
+
+                            <!-- Recently Viewed Item -->
+                            <div class="owl-item">
+                                <a href="/detail/{{MA_SAN_PHAM}}">
+                                    <div
+                                        class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                                        <div class="viewed_image"><img src="{{LINK_ANH}}" alt=""></div>
+                                        <div class="viewed_content text-center" style="height: 250px;">
+                                            <div class="viewed_name">{{TEN_SAN_PHAM}}</div>
+                                            <div class="viewed_price">VNĐ <del>{{GIA_HIEN_TAI}}</del></div>
+                                            <div class="viewed_price">Bạn thắng với giá <mark>{{GIA_DAU}} VND</mark>
+                                            </div>
+                                            <p class="card-text"><small class="text-muted">Đăng ngày
+                                                    {{THOI_DIEM_DANG}}</small></p>
+                                        </div>
+                                    </div>
+
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

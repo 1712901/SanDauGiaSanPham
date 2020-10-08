@@ -1,0 +1,226 @@
+<script>
+  $('.popular_categories').remove();
+</script>
+<script>
+  function XacNhanDat() {
+    var txt;
+    if (confirm("Bấm OK để xác nhận đặt giá")) {
+      txt = '<button type="submit" class="btn btn-outline-warning">Xác nhận</button>'
+    } else {
+      txt = '<button class="btn btn-danger">Đã hủy</button>';
+    }
+    document.getElementById("demo").innerHTML = txt;
+  }
+  function ThemVaoYeuThich() {
+    var re;
+    if (confirm("Bấm OK để thêm vào yêu thích")) {
+      re = '<button type ="submit" class="btn btn-success" id="BTyeuThich">THÊM</button>';
+      document.getElementById("demo2").innerHTML = '<input type="number" class="form-control" value="0" id="giachon" name="giachon">';
+    } else {
+      re = '<button class="btn btn-danger">Đã hủy</button>';
+    }
+    document.getElementById("demo1").innerHTML = re;
+  }
+  $(document).ready(function () {
+    $("#btLIKES").click(function () {
+      document.getElementById("demo4").innerHTML = '<input type="hidden" class="form-control" value="1" id="LIKES" name="LIKES">';
+      document.getElementById("btLIKES").innerHTML = '<button type="button" class="btn btn-danger">LIKES</button>';
+    });
+  });
+  $(document).ready(function () {
+    $("#btGUI").click(function () {
+      document.getElementById("demo5").innerHTML = '<button type="button" class="btn btn-info">Đã đánh giá</button>';
+    });
+  });
+</script>
+<!-- Portfolio Item Heading -->
+<h1 class="my-3">{{products.TEN_SAN_PHAM}}</h1>
+
+<!-- Portfolio Item Row -->
+<div class="row">
+
+  <div class="col-md-6">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block w-100" src="{{products.LINK_ANH_BS1}}" alt="First slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="{{products.LINK_ANH_BS2}}" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="{{products.LINK_ANH_BS3}}" alt="Third slide">
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <h3 class="my-3">Điểm của bidder: {{bidder_diem.TONG_DIEM}} điểm</h3>
+    <form method="GET" id="DauGia-form">
+      <div class="form-group">
+        <div id="demo2"><input type="number" class="form-control" value="{{products.GIA_HIEN_TAI}}" id="giachon"
+            name="giachon"></div>
+        <input type="hidden" class="form-control" value="{{products.MA_SAN_PHAM}}" id="MaSP" name="MaSP">
+      </div>
+      <div class="d-flex flex-row bd-highlight mb-3">
+        <div id="demo"><button class="btn btn-outline-info" onclick="XacNhanDat()">Đặt giá</button></div>
+        <div id="demo1"><button class="btn btn-outline-info" id="BTyeuThich" onclick="ThemVaoYeuThich()">Thêm vàoyêu
+            thích</button>
+        </div>
+        <div id="demo5"><button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModal3"
+            >Đánh giá</button></div>
+      </div>
+    </form>
+    <div id="myModal3" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <h2>Đánh giá:{{products.MA_NGUOI_BAN}} </h2>
+              <form method="POST" action="/detail/SP">
+                <div class="form-group">
+                  <label for="comment">Comment:</label>
+                  <textarea class="form-control" rows="5" id="comment" name="nhanxet"></textarea>
+                  <div id="btLIKES"><button type="button" class="btn btn-outline-danger">LIKES</button></div>
+                  <input type="hidden" class="form-control" value="{{products.MA_SAN_PHAM}}" id="MaSP" name="MaSP">
+                  <input type="hidden" class="form-control" value="{{products.MA_NGUOI_BAN}}" id="MaNGban"
+                    name="MaNGban">
+                  <div id="demo4"> <input type="hidden" class="form-control" value="0" id="LIKES" name="LIKES"></div>
+
+                </div>
+                <button type="submit" class="btn btn-outline-success" id="btGUI">Gửi</button type="submit">
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!--<a href="#" class="btn btn-primary">{{products.GIA_HIEN_TAI}} VNĐ</a>-->
+    <h3 class="my-3">Lịch sử đấu giá</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Thời điểm</th>
+          <th scope="col">Người mua</th>
+          <th scope="col">Giá</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each history}}
+        <tr>
+          <td>{{this.THOI_DIEM}}</td>
+          <td>{{this.Name}}</td>
+          <td>{{this.GIA_DAU}} VND</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<!-- /.row -->
+
+<!-- Related Projects Row -->
+<h3 class="my-4">Related Projects</h3>
+
+<div class="row">
+
+  <div class="col-md-3 col-sm-6 mb-4">
+    <a href="#">
+      <img class="img-fluid" src="{{products.LINK_ANH_BS1}}" alt="">
+    </a>
+  </div>
+
+  <div class="col-md-3 col-sm-6 mb-4">
+    <a href="#">
+      <img class="img-fluid" src="{{products.LINK_ANH_BS2}}" alt="">
+    </a>
+  </div>
+
+  <div class="col-md-3 col-sm-6 mb-4">
+    <a href="#">
+      <img class="img-fluid" src="{{products.LINK_ANH_BS3}}" alt="">
+    </a>
+  </div>
+
+</div>
+<div class="viewed 1">
+  <h3 class="viewed_title" style="font-family: 'Lato', sans-serif;">Related Products</h3>
+  <div class="row">
+    <div class="col">
+      <div class="viewed_title_container">
+
+      </div>
+
+      <div class="viewed_slider_container">
+
+        <!-- Recently Viewed Slider -->
+
+        <div class="owl-carousel owl-theme viewed_slider">
+          {{#each relative}}
+
+          <!-- Recently Viewed Item -->
+          <div class="owl-item">
+            <a href="/detail/{{MA_SAN_PHAM}}">
+              <div
+                class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                <div class="viewed_image"><img src="{{LINK_ANH}}" alt=""></div>
+                <div class="viewed_content text-center" style="height: 250px;">
+                  <div class="viewed_name">{{TEN_SAN_PHAM}}</div>
+                  <div class="viewed_price">VNĐ <del>{{GIA_HIEN_TAI}}</del></div>
+                  <div class="viewed_price">VNĐ <mark>{{this.info.TopPrice}}</mark></div>
+                  <p class="card-text"><small class="text-muted">Đăng ngày
+                      {{this.THOI_DIEM_DANG}}</small></p>
+                  <p class="card-text"><small class="text-muted"><mark>{{this.info.HO_TEN}}</mark> đang giữ giá
+                      đầu cao nhất</small></p>
+
+                </div>
+                <ul class="item_marks">
+                  <li class="item_mark item_discount">{{this.info.SL}} lượt</li>
+                </ul>
+
+              </div>
+
+            </a>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 
+<div class="row">
+  {{#each relative}}
+  <a href="/detail/{{this.MA_SAN_PHAM}}">
+    <div class="card" style="width: 14rem;">
+      <img src="{{this.LINK_ANH}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{this.TEN_SAN_PHAM}}</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+          content.</p>
+        <a href="#" class="btn btn-primary">{{this.GIA_HIEN_TAI}}</a>
+      </div>
+    </div>
+  </a>
+  {{/each}}
+</div> -->

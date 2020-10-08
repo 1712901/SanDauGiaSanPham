@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Auction Floor</title>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../public/NoName/styles/bootstrap4/bootstrap.min.css">
+    <link href="../../public/NoName/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" type="text/css">
+    
+    <link rel="stylesheet" type="text/css" href="../../public/NoName/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+
+    <link rel="stylesheet" type="text/css" href="../../public/NoName/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="../../public/NoName/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="../../public/NoName/plugins/slick-1.8.0/slick.css">
+    <link rel="stylesheet" type="text/css" href="../../public/NoName/styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="../../public/NoName/styles/responsive.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../public/NoName/style.css">
+
+    <script type="text/javascript" src="../../public/NoName/plugins/jquery.simplePagination.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../public/NoName/plugins/simplePagination.css">
+	{{!-- <link rel="stylesheet" type="text/css" href="../../public/plugins/jquery.min.js"> --}}
+     <script src="https://cdn.tiny.cloud/1/o1alz3zo5vt9yiecj386puetulp0454ss0jva34wj19nktgs/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="../../public/scriptseller.js"></script>
+
+    <style>
+        div.preview-images>img {
+            width: 200px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('.popular_categories').remove();
+        });
+
+    </script>
+
+</head>
+
+<body>
+     {{>NoName/header}}
+    <br>
+    <div class="row">
+        <div class="col-3">
+            {{>NoName/side_SELLER}}
+        </div>
+
+        <div class="col-9 d-flex flex-wrap justify-content-center bg-light">
+            <div class="row" id="work"></div>
+            <div class="row pagination-container w-100 d-flex justify-content-center"></div>
+            <div id="pagination"></div>
+        </div>
+
+    </div>
+
+    <script>
+        async function loadLOAIHANG() {
+            const res = await fetch('seller/DK_SP/Load_Loai_Hang');
+            const LH = await res.json();
+            for (let l of LH.LOAIHANG) {
+                $('#LH').append(`
+                <option value="${l.MA_LOAI_HANG}">${l.TEN_LOAI}</option>
+            `);
+            }
+        }
+
+        async function load_index_DKSP() {
+            $('#work').empty();
+            $('.row.pagination-container').empty();
+            $('#work').append(`
+            <div class="well">
+                <div class="row">
+                    <form action="/multiple-upload" method="POST" id="get-data" enctype="multipart/form-data">
+                        <h1> Rao bán sản phẩm</h1>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label>Tên sản phẩm</label>
+                                    <input type="text" name="tensp" id="tensp" placeholder="Sản phẩm.."
+                                        class="form-control">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="sel1">Loại hàng</label>
+                                    <select class="form-control" name="LH" id="LH">
+                                        {{#each this}}
+                                        <div class="row"></div>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 form-group">
+                                    <label>Giá khởi điểm</label>
+                                    <input type="text" name="GKD" id="GKD" placeholder="Giá" class="form-control">
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <label>Bước giá</label>
+                                    <input type="text" name="BG" id="BG" placeholder="Giá" class="form-control">
+                                </div>
+                                <div class="col-sm-4 form-group">
+                                    <label>Giá mua ngay (nếu có)</label>
+                                    <input type="text" name="GBN" id="GBN" placeholder="Giá" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Mô Tả</label>
+                                <textarea id="mytextarea" name="mytextarea"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-input-file"> </label>
+                                <input type="file" name="many-files" multiple id="input-many-files"
+                                    class="form-control-file border">
+                            </div>
+                        </div>
+                            <div>
+                                <div class="preview-images" id="preview-images"></div>
+                            </div>
+                        <br>
+                        <button type="submit" name="upload" class="btn btn-lg btn-info">Submit</button>
+                    </form>
+                </div>
+            </div>
+            `);
+            
+            loadLOAIHANG();
+            loadimg();
+            wysiwyg();
+        };
+        function wysiwyg() {
+            tinymce.init({
+                selector: '#mytextarea',
+                    plugins: [
+                        'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+                        'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                        'table emoticons template paste help'
+                    ],
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons',
+                menu: {
+                    favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | spellchecker | emoticons' }
+                },
+                menubar: 'favs file edit view insert format tools table help',
+                content_css: 'css/content.css'
+            });
+        }
+        function getdata() {
+            var content = tinymce.get("mytextarea").getContent();
+            //$("#mt").html(content);
+
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(content),
+                contentType: 'application/json',
+                url: 'http://localhost:3000/seller',
+                success: function (content) {
+                    console.log('success');
+                    console.log(JSON.stringify(content));
+                }
+            });
+        };
+
+        function loadimg() {
+            // Multiple images preview in browser - trungquandev.com
+            let imagesPreview = function (input, placeToInsertImagePreview) {
+                if (input.files) {
+                    let filesAmount = input.files.length;
+                    for (i = 0; i < filesAmount; i++) {
+                        let reader = new FileReader();
+                        reader.onload = function (event) {
+                            $($.parseHTML("<img>")).attr("src", event.target.result).appendTo(placeToInsertImagePreview);
+                        }
+                        reader.readAsDataURL(input.files[i]);
+                    }
+                }
+            };
+            $("#input-many-files").on("change", function () {
+                imagesPreview(this, "div.preview-images");
+            });
+        }
+
+        async function DS_SP() {
+            const rows = await fetch(`/seller/DS_SP_OfSeller`);
+            const data = await rows.json();
+            $('#work').empty();
+            for (let p of data.products) {
+                $('#work').append(`
+        <div class="owl-item border border-primary rounded m-1" style="width: 18rem;">
+            <a href="seller/detail/${p.MA_SAN_PHAM}">
+                <div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="viewed_image"><img src="${p.LINK_ANH}" alt=""></div>
+                    <div class="viewed_content text-center" style="height: 200px;">
+                        <div class="viewed_name">${p.TEN_SAN_PHAM}</div>
+                        <div class="viewed_price">VNĐ <del>${p.GIA_HIEN_TAI}</del></div>
+                        <div class="viewed_price">VNĐ <mark style="color: #df3b3b;">${p.info.GIA_DAU}</mark></div>
+                        <p class="card-text"><small class="text-muted">Đăng ngày ${p.THOI_DIEM_DANG}</small></p>
+                        <p class="card-text"><small class="text-muted"><mark>${p.info.HO_TEN}</mark> đang giữ giá đầu cao
+                                nhất</small></p>
+                    </div>
+                    <ul class="item_marks">
+                        <li class="item_mark item_discount">${p.info.SL} lượt</li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+        `);
+            }
+            $('.row.pagination-container').empty();
+            $('#pagination').append(`
+        <style>
+            .simple-pagination ul {
+                margin: 0 0 20px;
+                padding: 0;
+                list-style: none;
+                text-align: center;
+            }
+
+            .simple-pagination li {
+                display: inline-block;
+                margin-right: 5px;
+            }
+
+            .simple-pagination li a,
+            .simple-pagination li span {
+                color: #666;
+                padding: 5px 10px;
+                text-decoration: none;
+                border: 1px solid #EEE;
+                background-color: #FFF;
+                box-shadow: 0px 0px 10px 0px #EEE;
+            }
+
+            .simple-pagination .current {
+                color: #FFF;
+                background-color: #FF7182;
+                border-color: #FF7182;
+            }
+
+            .simple-pagination .prev.current,
+            .simple-pagination .next.current {
+                background: #e04e60;
+            }
+        </style>
+        
+        `);
+            P_trang();
+        }
+        async function DS_SP_DADAUGIA() {
+            const rows = await fetch(`/seller/DS_SP_DADAUGIA`);
+            const data = await rows.json();
+            $('#work').empty();
+            for (let p of data.products) {
+                $('#work').append(`
+        <div class="owl-item border border-primary rounded m-1" style="width: 18rem;">
+            <a href="detail/${p.MA_SAN_PHAM}">
+                <div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="viewed_image"><img src="${p.LINK_ANH}" alt=""></div>
+                    <div class="viewed_content text-center" style="height: 200px;">
+                        <div class="viewed_name">${p.TEN_SAN_PHAM}</div>
+                        <div class="viewed_price">VNĐ <del>${p.GIA_HIEN_TAI}</del></div>
+                        <div class="viewed_price">VNĐ <mark style="color: #df3b3b;">${p.info.GIA_DAU}</mark></div>
+                        <p class="card-text"><small class="text-muted">Đăng ngày ${p.THOI_DIEM_DANG}</small></p>
+                        <p class="card-text"><small class="text-muted"><mark>${p.info.HO_TEN}</mark> đang giữ giá đầu cao
+                                nhất</small></p>
+                    </div>
+                    <ul class="item_marks">
+                        <li class="item_mark item_discount">${p.info.SL} lượt</li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+        `);
+            }
+            $('.row.pagination-container').empty();
+            $('#pagination').append(`
+        <style>
+            .simple-pagination ul {
+                margin: 0 0 20px;
+                padding: 0;
+                list-style: none;
+                text-align: center;
+            }
+
+            .simple-pagination li {
+                display: inline-block;
+                margin-right: 5px;
+            }
+
+            .simple-pagination li a,
+            .simple-pagination li span {
+                color: #666;
+                padding: 5px 10px;
+                text-decoration: none;
+                border: 1px solid #EEE;
+                background-color: #FFF;
+                box-shadow: 0px 0px 10px 0px #EEE;
+            }
+
+            .simple-pagination .current {
+                color: #FFF;
+                background-color: #FF7182;
+                border-color: #FF7182;
+            }
+
+            .simple-pagination .prev.current,
+            .simple-pagination .next.current {
+                background: #e04e60;
+            }
+        </style>
+        
+        `);
+            P_trang();
+        }
+        function P_trang() {
+            var items = $(".row .owl-item");
+            var numItems = items.length;
+            var perPage = 6;
+
+            items.slice(perPage).hide();
+
+            $('.row.pagination-container').pagination({
+                items: numItems,
+                itemsOnPage: perPage,
+                prevText: "&laquo;",
+                nextText: "&raquo;",
+                onPageClick: function (pageNumber) {
+                    var showFrom = perPage * (pageNumber - 1);
+                    var showTo = showFrom + perPage;
+                    items.hide().slice(showFrom, showTo).show();
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

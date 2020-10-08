@@ -1,0 +1,30 @@
+<script>
+    $('.popular_categories').remove();
+</script>
+<div class="row">
+    <div class="col-3">
+        {{>side}}
+    </div>
+    <div class="col-9 d-flex flex-wrap justify-content-center">
+        {{#each products}}
+        {{!-- href="/detail/{{this.MA_SAN_PHAM}}" --}}
+        <a onclick="#" class="text-decoration-none m-2">
+            <div class="card mb-3 h-100" style="width: 18rem;">
+                <img src="{{this.LINK_ANH}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.TEN_SAN_PHAM}}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                    <p class="btn btn-primary"><del>{{this.GIA_HIEN_TAI}}</del> <mark>{{this.info.GIA_DAU}}</mark></p>
+                    <p class="card-text"><small class="text-muted">{{this.TimeOut}} mins ago</small></p>
+                    <p class="card-text"><small class="text-muted">Đăng ngày {{this.THOI_DIEM_DANG}}</small></p>
+                    <p class="card-text"><small class="text-muted">{{this.info.HO_TEN}} đang giữ giá đầu cao nhất</small></p>
+                    <p class="card-text"><small class="text-muted">Số lần ra giá: {{this.info.SL}} lượt</small></p>
+
+                </div>
+
+            </div>
+        </a>
+        {{/each}}
+    </div>
+</div>

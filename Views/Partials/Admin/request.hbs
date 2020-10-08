@@ -1,0 +1,23 @@
+<table class="table table-hover request">
+  <thead>
+    <tr>
+      <th scope="col" style="width:10%">Mã</th>
+      <th scope="col" style="width:30%">Tên</th>
+      <th scope="col" style="width:50%">Thời gian</th>
+      <th scope="col" style="width:10%"></th>
+    </tr>
+  </thead>
+  <tbody id="Req" class="hasPagin">
+    {{#each requests}}
+    <tr>
+      <th scope="row"><a href="#">{{MA_YEU_CAU}}</a></th>
+      <td>{{HO_TEN}}</td>
+      <td>{{NGAY_YEU_CAU}}</td>
+       <td class="justify-content-center d-flex">
+         <button class="btn btn-danger btn-sm mx-1"><i class="fa fa-trash-alt"></i></button>
+          <button class="btn btn-success btn-sm mx-1" ><i class="fa fa-check-double"></i></button>
+       </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

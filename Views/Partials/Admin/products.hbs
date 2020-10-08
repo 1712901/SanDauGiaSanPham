@@ -1,0 +1,24 @@
+<table class="table table-hover" id="products">
+  <thead>
+    <tr>
+      <th scope="col"style="width:10%">Mã</th>
+      <th scope="col"style="width:30%">Tên SP</th>
+      <th scope="col"style="width:30%">Người bán</th>
+      <th scope="col"style="width:25%">Giá bán</th>
+      <th scope="col"style="width:5%"></th>
+    </tr>
+  </thead>
+  <tbody class="hasPagin">
+    {{#each products}}
+    <tr>
+      <th scope="row"><a href="#">{{MA_SAN_PHAM}}</a></th>
+      <td>{{TEN_SAN_PHAM}}</td>
+      <td>{{HO_TEN}}</td>
+      <td>{{GIA_HIEN_TAI}}</td>
+      <td> <button class="btn btn-danger btn-sm"><i class="fa fa-trash-alt"></i></button></td>
+    </tr>
+    {{/each}}
+
+  </tbody>
+</table>
+

@@ -1,0 +1,25 @@
+{{> Admin/navbar}}
+<div class="row py-3">
+    <div class="col-md-2">
+        {{> Admin/menuSide}}
+
+    </div>
+    <div class="col-md-10 ">
+        <div class="row">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link {{#if Builder}} active{{/if}}" href="/admin/users/?t=Builder">Builder</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{#if Seller}} active{{/if}}" href="/admin/users/?t=Seller">Seller</a>
+                </li>
+            </ul>
+        </div>
+        <div class="row " style="min-height:515px;">
+            {{> Admin/bUsers}}
+        </div>
+        <div class="row d-flex justify-content-end" style=";margin-inline-end: 50px;">
+           {{>Admin/pagination}}
+        </div>
+    </div>
+</div>

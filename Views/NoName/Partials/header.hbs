@@ -1,0 +1,135 @@
+<header>
+<!-- Header Main -->
+<div class="header_main">
+  <div class="container">
+    <div class="row">
+
+      <!-- Logo -->
+      <div class="col-lg-3 col-sm-3 col-3 order-1">
+        <div class="logo_container">
+          <div class="logo"><a href="/" class="text-decoration-none">AuctionFloor</a></div>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="col-lg-9 col-12 order-lg-2 order-3 text-lg-left text-right">
+        <div class="header_search">
+          <div class="header_search_content">
+            <div class="header_search_form_container">
+              <form action="#" id="form-inline">
+                <input type="search" required="required" class="header_search_input"
+                  placeholder="Search for products..." style="margin-top: 15px; width: 100%;">
+                
+                <button type="submit" class="header_search_button trans_300" value="Submit"><img
+                    src="../../../public/images/search.png" alt="" ></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Main Navigation -->
+
+<nav class="main_nav">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+
+        <div class="main_nav_content d-flex flex-row">
+
+          <!-- Categories Menu -->
+
+          <!-- Main Nav Menu -->
+
+          <div class="main_nav_menu">
+            <ul class="standard_dropdown main_nav_dropdown">
+              <li><a href="/">Home<i class="fas fa-chevron-down"></i></a></li>
+              <li class="hassubs">
+                <a href="#">Super Deals<i class="fas fa-chevron-down"></i></a>
+                <ul>
+                  <li>
+                    <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                      <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                      <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                      <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                </ul>
+              </li>
+              <li class="hassubs">
+                <a href="#">Featured Brands<i class="fas fa-chevron-down"></i></a>
+                <ul>
+                  <li>
+                    <a href="#">Menu Item<i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                      <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                      <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                      <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="#">Menu Item<i class="fas fa-chevron-down"></i></a></li>
+                </ul>
+              </li>
+              <li class="hassubs">
+                <a href="#">Pages<i class="fas fa-chevron-down"></i></a>
+                <ul>
+                  <li><a href="shop.html">Shop<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="product.html">Product<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="blog_single.html">Blog Post<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="regular.html">Regular Post<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="cart.html">Cart<i class="fas fa-chevron-down"></i></a></li>
+                  <li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
+                </ul>
+              </li>
+              {{#if authentication}}
+                <li><a href="/Logout">Logout<i class="fas fa-chevron-down"></i></a></li>
+              {{else}}
+                <li><a href="/Login">Login<i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="/SignUp">Sign Up<i class="fas fa-chevron-down"></i></a></li>
+              {{/if}}
+
+            </ul>
+          </div>
+
+          <!-- Menu Trigger -->
+
+          <div class="menu_trigger_container ml-auto">
+            <div class="menu_trigger d-flex flex-row align-items-center justify-content-end">
+              <div class="menu_burger">
+                <div class="menu_trigger_text">menu</div>
+                <div class="cat_burger menu_burger_inner"><span></span><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Popular Categories -->
+<div class="popular_categories d-flex justify-content-start">
+
+  <!-- Popular Categories Slider -->
+
+  {{!-- <div class="col-lg"> --}}
+  <div class="popular_categories_slider_container">
+    <div class="owl-carousel owl-theme popular_categories_slider">
+
+    </div>
+  </div>
+</div>
+</header>

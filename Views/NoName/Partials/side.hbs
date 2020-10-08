@@ -1,0 +1,37 @@
+<script>
+	async function load(){
+		const res = await fetch('/getCategory');
+		const Category = await res.json();
+
+		for (let cate of Category.category) {
+			const res1 = await fetch(`/getTypeProducts/${cate.MA_DANH_MUC}`);
+			const TypeProducts = await res1.json();
+			let code = '';
+			for (let type of TypeProducts.Type) {
+				code += `<a href="/Type/${type.MA_LOAI_HANG}"><div class="p-1">${type.TEN_LOAI}</div></a>`
+			}
+
+			$('.card.bg-light.mb-3').append(`
+				<div class="btn-group dropright ">
+					<a href="/Category/${cate.MA_DANH_MUC}" class="btn btn-secondary w-75">
+						${cate.TEN_DANH_MUC}
+					</a>
+					<button class="btn btn-secondary dropdown-toggle dropdown-toggle-split w-10" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="sr-only">Toggle Dropright</span>
+					</button>
+					<div class="dropdown-menu">
+						${code}
+					</div>
+				</div>
+			`);
+
+		}
+	}
+	load();
+</script>
+
+<div class="card bg-light mb-3">
+	<div class="card-header">Category</div>
+	
+</div>
+

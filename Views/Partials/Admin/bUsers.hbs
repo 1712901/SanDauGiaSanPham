@@ -1,0 +1,99 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col" style="width:5%">Stt</th>
+      <th scope="col" style="width:5%">Mã</th>
+      <th scope="col" style="width:20%">Tên</th>
+      <th scope="col" style="width:25%">Email</th>
+      <th scope="col" style="width:25%"></th>
+      <th scope="col" style="width:15%"></th>
+    </tr>
+  </thead>
+  <tbody class="hasPagin">
+    {{#if Builder}}
+    {{#listBuilder Builder}} {{/listBuilder}}
+    {{else if Seller}}
+    {{#listSeller Seller}} {{/listSeller}}
+    {{/if}}
+  </tbody>
+</table>
+
+<script>
+  $(document).ready(function () {
+    /* $(document).on("click", "tbody tr td:not(:nth-last-child(-n+1))", function () {
+      window.location = $(this).parent().children('th').find('a').attr('href');
+    });*/
+
+    //Bắt sự kiện click downgrade User
+    $('.btn-warning').on('click', function (e) {
+      e.preventDefault();
+      const trTable = $(this).parent().parent();
+      const idUser = trTable.children('td').first().text();
+      const userName = trTable.children('td').first().next().text();
+      console.log(idUser + "  " + userName);
+      showConfirm('UPDATE', `Bạn có muốn hạ cấp ${userName}`);
+      $('.confirm .modal-footer button.btn-primary').on('click', function () { Downgrade(idUser, trTable) });
+    });
+    //Bắt sự kiện click remove
+    $('.btn-danger').on('click', function (e) {
+      e.preventDefault();
+      const trTable = $(this).parent().parent();
+      const idUser = trTable.children('td').first().text();
+      const userName = trTable.children('td').first().next().text();
+      console.log(idUser + "  " + userName);
+      showConfirm('DELETE', `Bạn có muốn xóa User <i><b>${userName}</b></i>`);
+      $(".confirm .modal-footer button.btn-primary").prop("onclick", null).off("click");
+      $('.confirm .modal-footer button.btn-primary').on('click', function () { Remove(idUser, trTable) });
+    });
+    //Bắt sự kiện click edit
+    $('.btn-primary').on('click', function (e) {
+      e.preventDefault();
+      const trTable = $(this).parent().parent();
+      const idUser = trTable.children('td').first().text();
+      const userName = trTable.children('td').first().next().text();
+      console.log(idUser + "  " + userName);
+
+    });
+    function Remove(idUser, trTable) {
+      $.post('/admin/users/remove', { IdUser: `${idUser}` }, (data, status, xhr) => {
+        try {
+          let objData = JSON.parse(data);
+          if (objData.status === 500) {
+            console.log(objData.messenge);
+          }
+          if (objData.status === 200) {
+            console.log(objData.messenge);
+            $('.confirm').modal('toggle');
+            trTable.remove()
+          }
+        } catch (error) {
+          document.write(data);
+        }
+      });
+    };
+    function Downgrade(idUser, trTable) {
+      $.post('/admin/users/downgrade', { IdUser: `${idUser}` }, (data, status, xhr) => {
+        try {
+          let objData = JSON.parse(data);
+          if (objData.status === 500) {
+            console.log(objData.messenge);
+          }
+          if (objData.status === 200) {
+            console.log(objData.messenge);
+            $('.confirm').modal('toggle');
+            trTable.remove()
+          }
+        } catch (error) {
+          document.write(data);
+        }
+      });
+    };
+    function showConfirm(title, message) {
+      $('.confirm .modal-header .modal-title').html(title);
+      $('.confirm .modal-body p').html(message);
+      $('.confirm').modal('toggle');
+      $(".confirm .modal-footer button.btn-primary").prop("onclick", null).off("click");
+    };
+  });
+
+</script>

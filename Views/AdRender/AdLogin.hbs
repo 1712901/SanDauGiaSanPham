@@ -1,0 +1,85 @@
+{{> Admin/navbar}}
+<div class="row py-3">
+    <div class="col-md-2">
+        {{> Admin/menuSide}}
+    </div>
+    <div class="col-md-10 ">
+         <div class="row">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Builder</a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            {{> Admin/request}}
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(()=>{
+        //bắt sự kiệ click on row table
+        $(document).on("click", "table.request tbody tr td:not(:nth-last-child(-n+2)),table.request tbody tr th", function () {
+            window.location = $(this).parent().children('th').find('a').attr('href');
+        });
+         //Bắt sự kiện click on icon trash of catLv1 table 
+        $('#Req .btn-danger').on('click', function (e) {
+            e.preventDefault();
+            const trTable = $(this).parent().parent();
+            const idReq = trTable.children('th').text();
+            const nameReq = trTable.children('td').first().text();
+            console.log(idReq);
+            showConfirm("DELETE", `Bạn có muốn xóa Yêu cầu nâng cấp của <i><b>${nameReq}</b></i>`);
+            $('.confirm .modal-footer button.btn-primary').on('click', function () { removeReq(idReq,trTable) });
+        });
+        $('#Req .btn-success').on('click', function (e) {
+            e.preventDefault();
+            const trTable = $(this).parent().parent();
+            const idReq = trTable.children('th').text();
+            const nameReq = trTable.children('td').first().text();
+            console.log(idReq);
+            showConfirm("UPGRADE", `Bạn có muốn xóa chấp nhận yêu cầu nâng cấp của <i><b>${nameReq}</b></i>`);
+            $('.confirm .modal-footer button.btn-primary').on('click', function () { upgradeReq(idReq,trTable) });
+        });
+    });
+    function removeReq(codeId,trTable){
+         $.post('/admin/requests/remove', { IdReq: `${codeId}` }, (data, status, xhr) => {
+        try {
+          let objData = JSON.parse(data);
+          if (objData.status === 500) {
+            console.log(objData.messenge);
+          }
+          if (objData.status === 200) {
+            console.log(objData.messenge);
+             $('.confirm').modal('toggle');
+            trTable.remove();
+          }
+        } catch (error) {
+          document.write(data);
+        }
+      });
+    }
+    function upgradeReq(codeId,trTable){
+        $.post('/admin/requests/upgrade', { IdReq: `${codeId}` }, (data, status, xhr) => {
+        try {
+          let objData = JSON.parse(data);
+          if (objData.status === 500) {
+            console.log(objData.messenge);
+          }
+          if (objData.status === 200) {
+            console.log(objData.messenge);
+             $('.confirm').modal('toggle');
+            trTable.remove();
+          }
+        } catch (error) {
+          document.write(data);
+        }
+      });
+    }
+    function showConfirm(title, message) {
+        $('.confirm .modal-header .modal-title').html(title);
+        $('.confirm .modal-body p').html(message);
+        $('.confirm').modal('toggle');
+        $(".confirm .modal-footer button.btn-primary").prop("onclick", null).off("click");
+    } 
+</script>

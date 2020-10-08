@@ -1,0 +1,201 @@
+{{> Admin/navbar}}
+<div class="row py-2">
+    <div class="col-md-2">
+        {{> Admin/menuSide}}
+    </div>
+    <div class="col-md-10 shadow">
+        <div class="row tbCategory">
+            <div class="col-md-6">
+                <div class="row m-2 justify-content-between">
+                    <h3>Category LV2</h3>
+                    <button type="button" class="btn btn-info btn-xs" id="btnAddCatLv2"><i
+                            class="fa fa-plus"></i></button>
+                </div>
+                <div>
+                    {{> Admin/categoryLv2}}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row m-2 justify-content-between">
+                    <h3>Category LV1</h3>
+                    <button type="button" class="btn btn-info btn-xs" id="btnAddCatLv1"><i
+                            class="fa fa-plus"></i></button>
+                </div>
+                <div>
+                    {{> Admin/categoryLv1}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md">
+                <h3>List products</h3>
+                <div>
+                    {{> Admin/products}}
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-end" style="margin-inline-end: 50px;">
+           {{>Admin/pagination}}
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="CategoryLv1" tabindex="-1" role="dialog" aria-labelledby="CategoryLv1Title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CategoryLv1Title">Danh Mục</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formCatLv1">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Ten Danh Muc</label>
+                        <input type="text" class="form-control" id="TenDanhMuc" name="TenDanhMuc" required>
+                    </div>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="CategoryLv2" tabindex="-1" role="dialog" aria-labelledby="CategoryLv2" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CategoryLv2">Loại Hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formCatLv2" action="/admin/category/addLV2" method="POST">
+                    <div class="form-group mb-3">
+                        <label for="LoaiHang">Danh Mục</label>
+                        <select class="custom-select" id="optionDanhMuc" name="MaDanhMuc">
+                            <option value="1" selected>One</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Tên Loại Hàng</label>
+                        <input type="text" class="form-control" id="TenLoaiHang" name="TenLoaiHang" required>
+                    </div>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //bắt sự kiệ click on row table
+        $(document).on("click", "table.category tbody tr td:not(:nth-last-child(-n+1)),table.category tbody tr th", function () {
+            window.location = $(this).parent().children('th').find('a').attr('href');
+        });
+
+        // Bắt sự kiện Thêm category Lv1
+        $('#btnAddCatLv1').on('click', () => {
+            $('#CategoryLv1').modal('toggle');
+            $('#formCatLv1 button.btn').on('click', function () {
+                AddCatLv1();
+            })
+        })
+        // Bắt sự kiện Thêm category Lv2
+        $('#btnAddCatLv2').on('click', () => {
+            const optionSelected = $('#catLv1 tr.table-success').children('th').text();
+            showFormAddCatlv1(optionSelected);
+            $('#CategoryLv2').modal('toggle');
+            $('#formCatLv2 button.btn').on('click', function () {
+                AddCatLv2();
+            })
+        })
+
+        //Bắt sự kiện click on icon trash of catLv1 table 
+        $('#catLv1 tr td .btn-danger').on('click', function (e) {
+            e.preventDefault();
+            const trTable = $(this).parent().parent();
+            const maDanhMuc = trTable.children('th').text();
+            const tenDanhMuc = trTable.children('td').first().text();
+            showConfirm("DELETE", `Bạn có muốn xóa danh mục <p>${tenDanhMuc}</p>`);
+            $('.confirm .modal-footer button.btn-primary').on('click', function () { Remove(maDanhMuc, 1, trTable) });
+        });
+        //Bắt sự kiện click on icon trash of catLv2 table 
+        $('#catLv2 tr td .btn-danger').on('click', function (e) {
+            //e.preventDefault();
+            const trTable = $(this).parent().parent();
+            const maLoaiHang = trTable.children('th').text();
+            const tenLoaiHang = trTable.children('td').first().text();
+            showConfirm("DELETE", `Bạn có muốn xóa loại hàng <p>${tenLoaiHang}</p>`);
+            $('.confirm .modal-footer button.btn-primary').on('click', function () { Remove(maLoaiHang, 2, trTable) });
+        });
+        //Bắt sự kiện click on icon edit of catLv2 table
+        $('#catLv2 tr td .btn-primary').on('click', function (e) {
+            e.preventDefault();
+            const trTable = $(this).parent().parent();
+            const maLoaiHang = trTable.children('th').text();
+            const tenLoaiHangOld = trTable.children('td').first().text();
+
+            const optionSelected = $('#catLv1 tr.table-success').children('th').text();
+            showFormAddCatlv1(optionSelected, tenLoaiHangOld);
+
+            $('#CategoryLv2').modal('toggle');
+
+            $('#formCatLv2 button.btn').on('click', function () {
+                EditCatLv2(maLoaiHang, trTable.children('td').first())
+            });
+        });
+        //Bắt sự kiện click on icon EDIT of catLv1 table
+        $('#catLv1 tr td .btn-primary').on('click', function (e) {
+            e.preventDefault();
+            const trTable = $(this).parent().parent();
+            const maLoaiHang = trTable.children('th').text();
+            const tenLoaiHangOld = trTable.children('td').first().text();
+            $('#TenDanhMuc').val(tenLoaiHangOld);
+            $('#CategoryLv1').modal('toggle');
+            $('#formCatLv1 button.btn').on('click', function () {
+                EditCatLv1(maLoaiHang, trTable.children('td').first())
+            });
+        });
+        //Bắt sự kiện click on icon trash of product table
+        $('#products tr td .btn-danger').on('click', function (e) {
+            e.preventDefault();
+            const trTable = $(this).parent().parent();
+            const idProduct = trTable.children('th').text();
+            const nameProduct = trTable.children('td').first().text();
+            showConfirm("DELETE", `Bạn có muốn xóa loại hàng <p>${nameProduct}</p>`);
+            $('.confirm .modal-footer button.btn-primary').on('click', function () { Remove(idProduct, 3, trTable) });
+        });
+    });
+   </script>
+{{#section 'stypeCategory'}}
+<script src="../../public/Admin/js/category.js"></script>
+<style>
+    .tbCategory div div:not(:nth-child(1)) {
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+{{/section}}

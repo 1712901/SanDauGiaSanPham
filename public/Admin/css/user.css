@@ -1,0 +1,14 @@
+
+.far,.fas{
+    color: #000;
+}
+.fa-check-double:hover{
+    color:greenyellow;
+}
+.fa-trash-alt:hover{
+    color: red;
+}
+tbody tr th a {
+    color: black;
+    pointer-events: none;
+}
